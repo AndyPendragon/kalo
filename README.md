@@ -17,4 +17,5 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    ```
 
 ## Design to replicate
+
 ![apple music](./design/apple-music-android-36.png)

@@ -1,57 +1,66 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Platform,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native'
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import ParallaxScrollView from '@/components/ParallaxScrollView'
+import { ThemedText } from '@/components/ThemedText'
+import { ThemedView } from '@/components/ThemedView'
+import { useEffect, useState } from 'react'
 
 export default function HomeScreen() {
+  const [audioFiles, setAudioFiles] = useState<MediaLibrary.Asset[]>([])
+  const [permissionResponse, requestPermission] = MediaLibrary.usePermissions()
+
+  useEffect(() => {
+    const fetchAudioFiles = async () => {
+      if (!permissionResponse?.granted) {
+        const { granted } = await requestPermission()
+        if (!granted) return
+      }
+
+      let media = await MediaLibrary.getAssetsAsync({
+        mediaType: MediaLibrary.MediaType.audio,
+        first: 100, // Nombre max de fichiers récupérés
+      })
+
+      // Filtrer uniquement les fichiers MP3
+      const mp3Files = media.assets.filter((file) =>
+        file.filename.endsWith('.mp3'),
+      )
+      setAudioFiles(mp3Files)
+    }
+
+    fetchAudioFiles()
+  }, [permissionResponse])
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
       headerImage={
         <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+          source={require('@/assets/images/audio-wave.png')}
+          style={{ width: 100, height: 100, alignSelf: 'center' }}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
+      }
+    >
+      <ThemedView style={{ padding: 20 }}>
+        <ThemedText type='title'>🎵 Fichiers Audio</ThemedText>
+        <FlatList
+          data={audioFiles}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={{ paddingVertical: 10 }}>
+              <ThemedText type='defaultSemiBold'>{item.filename}</ThemedText>
+            </TouchableOpacity>
+          )}
+        />
       </ThemedView>
     </ParallaxScrollView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -71,4 +80,4 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
   },
-});
+})

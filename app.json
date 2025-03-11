@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "kalo",
+    "owner": "ekylabs",
     "slug": "kalo",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,13 +10,15 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ekylabs.kalo"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ekylabs.kalo"
     },
     "web": {
       "bundler": "metro",
@@ -31,6 +34,16 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35,
+            "buildToolsVersion": "35.0.1"
+          }
         }
       ]
     ],

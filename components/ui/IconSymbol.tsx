@@ -12,11 +12,13 @@ const MAPPING = {
   'folder.fill': 'folder',
   'format-list-bulleted': 'list',
   'play-arrow': 'play.fill',
-  'pause': 'pause',
-  'skip-next':'forward.end.fill',
-  'skip-previous':'backward.end.fill',
-  'menu':'ellipsis.vertical',
-  'chevron.left.forwardslash.chevron.right': 'code',
+  'play-circle-outline': 'play-circle-outline',
+  pause: 'pause',
+  'skip-next': 'forward.end.fill',
+  'skip-previous': 'backward.end.fill',
+  menu: 'ellipsis.vertical',
+  'music-note': 'music-note',
+  'chevron.left': 'chevron-left',
   'chevron.right': 'chevron-right',
 } as Partial<
   Record<

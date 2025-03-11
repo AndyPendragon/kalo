@@ -6,13 +6,12 @@ import ParallaxScrollView from '@/components/ParallaxScrollView'
 import { ThemedText } from '@/components/ThemedText'
 import { ThemedView } from '@/components/ThemedView'
 import { IconSymbol } from '@/components/ui/IconSymbol'
-
 import * as Styled from '@/themes/styles'
 
-export default function PlaylistScreen() {
+export default function PlayerScreen() {
   return (
     <Styled.Container>
-      <Styled.Title>Playlists</Styled.Title>
+      <Styled.Title>Player</Styled.Title>
     </Styled.Container>
   )
 }

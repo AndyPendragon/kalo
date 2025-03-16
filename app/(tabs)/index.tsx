@@ -1,12 +1,13 @@
-import { FlatList } from 'react-native'
-import { ThemedText } from '@/components/ThemedText'
+import { Alert, FlatList, Text, TouchableOpacity, View } from 'react-native'
 import { useEffect, useState } from 'react'
 
 import * as MediaLibrary from 'expo-media-library'
+
 import * as Styled from '@/themes/styles'
+import { ThemedText } from '@/components/ThemedText'
 
 export default function HomeScreen() {
-  const [audioFiles, setAudioFiles] = useState<MediaLibrary.Asset[]>([])
+  const [audioFiles, setAudioFiles] = useState<any[]>([])
   const [permissionResponse, requestPermission] = MediaLibrary.usePermissions()
 
   useEffect(() => {
@@ -27,13 +28,32 @@ export default function HomeScreen() {
     fetchAudioFiles()
   }, [permissionResponse])
 
+  const handleTrackPress = (track: MediaLibrary.Asset[]) => {
+    Alert.alert('Track Selected', `You selected: ${JSON.stringify(track)}`)
+  }
+
+  const trackItem = ({ item }) => (
+    <TouchableOpacity onPress={() => handleTrackPress(item)}>
+      <View
+        style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: '#ccc' }}
+      >
+        <ThemedText>{item.filename}</ThemedText>
+      </View>
+    </TouchableOpacity>
+  )
+
   return (
     <Styled.Container>
       <Styled.Title>Songs</Styled.Title>
       <FlatList
         data={audioFiles}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <ThemedText>{item.filename}</ThemedText>}
+        renderItem={trackItem}
+        ListEmptyComponent={
+          <Styled.Container>
+            <ThemedText>No songs found.</ThemedText>
+          </Styled.Container>
+        }
       />
     </Styled.Container>
   )

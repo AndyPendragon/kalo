@@ -15,7 +15,6 @@ export const Title = styled.Text`
   color: ${(props: any) => props.theme.text};
   padding: 12px 0;
 `
-
 export const Description = styled.Text`
   font-size: 16px;
   line-height: 20px;
@@ -28,12 +27,10 @@ export const AlbumArt = styled.Image`
   border-radius: 12px;
   margin-bottom: 20px;
 `
-
 export const TextContainer = styled.View`
   width: 80%;
   align-items: center;
 `
-
 export const AnimatedText = styled(Animated.Text)`
   font-size: 20px;
   color: ${(props: any) => props.theme.text};
@@ -41,19 +38,16 @@ export const AnimatedText = styled(Animated.Text)`
   width: 100%;
   overflow: hidden;
 `
-
 export const ArtistText = styled.Text`
   font-size: 16px;
   color: ${(props: any) => props.theme.text};
   margin-top: 5px;
 `
-
 export const Row = styled.View`
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
 `
-
 export const TrackItem = styled.TouchableOpacity`
   background-color: ${(props: any) => props.theme.background};
   padding: 12px;

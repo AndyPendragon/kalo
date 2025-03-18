@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "kalo.app"
-               BlueprintName = "kalo"
-               ReferencedContainer = "container:kalo.xcodeproj">
+               BuildableName = "Kalo.app"
+               BlueprintName = "Kalo"
+               ReferencedContainer = "container:Kalo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "kaloTests.xctest"
-               BlueprintName = "kaloTests"
-               ReferencedContainer = "container:kalo.xcodeproj">
+               BuildableName = "KaloTests.xctest"
+               BlueprintName = "KaloTests"
+               ReferencedContainer = "container:Kalo.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "kalo.app"
-            BlueprintName = "kalo"
-            ReferencedContainer = "container:kalo.xcodeproj">
+            BuildableName = "Kalo.app"
+            BlueprintName = "Kalo"
+            ReferencedContainer = "container:Kalo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "kalo.app"
-            BlueprintName = "kalo"
-            ReferencedContainer = "container:kalo.xcodeproj">
+            BuildableName = "Kalo.app"
+            BlueprintName = "Kalo"
+            ReferencedContainer = "container:Kalo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

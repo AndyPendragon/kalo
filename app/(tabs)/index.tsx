@@ -1,15 +1,35 @@
-import { Alert, FlatList, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, TouchableOpacity, View } from 'react-native'
 import { useEffect, useState } from 'react'
 import * as MusicLibrary from 'expo-music-library'
-import { Track } from 'react-native-track-player'
+import TrackPlayer, {
+  Track,
+  State,
+} from 'react-native-track-player'
 import * as Styled from '@/themes/styles'
 import { ThemedText } from '@/components/ThemedText'
 import FastImage from 'react-native-fast-image'
+import { create } from 'zustand'
+import { setupPlayer } from 'react-native-track-player/lib/src/trackPlayer'
+import { defaultArtworkImageUri } from '@/constants/Images'
 
+type QueueStore = {
+  activeQueueId: string | null
+  setActiveQueueId: (id: string) => void
+}
+
+const useQueueStore = create<QueueStore>()((set) => ({
+  activeQueueId: null,
+  setActiveQueueId: (id) => set({ activeQueueId: id }),
+}))
+
+export const useQueue = () => useQueueStore((state) => state)
 export type TrackWithPlaylist = Track & { playlist?: string[] }
 
 export default function HomeScreen() {
+  setupPlayer()
+
   const [audioFiles, setAudioFiles] = useState<TrackWithPlaylist[]>([])
+  const [artworkError, setArtworkError] = useState(false)
 
   useEffect(() => {
     const fetchTracks = async () => {
@@ -22,7 +42,7 @@ export default function HomeScreen() {
           id: asset.id,
           url: asset.uri,
           title: asset.title ?? asset.filename,
-          artist: asset.artist ?? '<unknown album>',
+          artist: asset.artist ?? '<unknown artist>',
           album: asset.albumId ?? '<unknown album>',
           duration: asset.duration ?? 0,
           artwork: asset.artwork,
@@ -37,11 +57,27 @@ export default function HomeScreen() {
     fetchTracks()
   }, [])
 
-  const handleTrackPress = (track: TrackWithPlaylist) => {
-    Alert.alert(
-      'Track Selected',
-      `You selected: ${JSON.stringify(track.artwork)}`,
-    )
+  const handleTrackPress = async (selectedTrack: TrackWithPlaylist) => {
+    try {
+      const currentQueue = await TrackPlayer.getQueue()
+      const isTrackInQueue = currentQueue.some(
+        (track) => track.url === selectedTrack.url,
+      )
+
+      if (!isTrackInQueue) {
+        await TrackPlayer.add(selectedTrack)
+          
+      }
+
+      const playerState = await TrackPlayer.getState()
+      if (playerState !== State.Playing) {
+        await TrackPlayer.play()
+      }
+
+
+    } catch (error) {
+      console.error('Error handling track press:', error)
+    }
   }
 
   const trackItem = ({ item }: { item: TrackWithPlaylist }) => (
@@ -58,20 +94,11 @@ export default function HomeScreen() {
       >
         <FastImage
           style={{ width: 50, height: 50 }}
-          source={
-            item.artwork && typeof item.artwork === 'string'
-              ? { uri: item.artwork, priority: FastImage.priority.normal }
-              : {
-                  uri: '@/assets/images/default-artwork.png',
-                  priority: FastImage.priority.normal,
-                }
-          }
-        />
-        <View
-          style={{
-            flex: 1,
+          source={{
+            uri: artworkError ? defaultArtworkImageUri : item?.artwork,
           }}
-        >
+        />
+        <View style={{ flex: 1 }}>
           <ThemedText type='defaultSemiBold'>{item.title}</ThemedText>
           <ThemedText>{item.artist}</ThemedText>
         </View>
